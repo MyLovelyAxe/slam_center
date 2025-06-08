@@ -68,13 +68,19 @@ colcon build --packages-select slam_center --symlink-install
 
 ## Usage
 
-Download a rosbag containing continuous recorded compressed images [here](). Open a terminal, play the rosbag to publish the images:
+Download a rosbag containing continuous recorded compressed images:
 
 ```bash
-cd ros_rtp_ws/
-source install/setup.bash # source ROS2 underlay and overlay
+cd /whatever/path
+curl -L -o compressed-images-rosbag-jpg-images.zip  https://www.kaggle.com/api/v1/datasets/download/jialeili/compressed-images-rosbag-jpg-images
+
+```
+
+Unzip the `.zip` file, and open a terminal under the same folder, play the rosbag to publish the images:
+
+```bash
 # 1. play once
-ros2 bag play rosbag2_2025_05_26-23_56_14 
+ros2 bag play rosbag2-2025_06_08-13_12_11-shelf3 # ros2 bag play <rosbag_name>
 # 2. play forever
 # while true; do ros2 bag play rosbag2_2025_05_26-23_56_14; done
 ```
@@ -87,4 +93,4 @@ source install/setup.bash
 ros2 run slam_center send_comp_img
 ```
 
-Open **another** terminal, refer to [here]() to test if the compressed image can be received by zmq socket under a different python version (i.e. python 3.11) for SLAM model.
+Open **another** terminal, run a zmq process refer to [Usage section of repo **test_zmq**](https://github.com/MyLovelyAxe/test_zmq#usage) to test if the compressed image can be received by zmq socket under a different python version (i.e. python 3.11) for SLAM model.
