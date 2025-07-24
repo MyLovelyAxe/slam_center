@@ -43,7 +43,7 @@ class CompressedImageSubscriberNode(Node):
         # Set up ZMQ context and PUB socket to send compressed images
         self.zmq_img_sender = zmq.Context()
         self.zmq_img_sender_socket = self.zmq_img_sender.socket(zmq.PUB)
-        self.zmq_img_sender_socket.bind("tcp://127.0.0.1:5555")
+        self.zmq_img_sender_socket.bind("tcp://127.0.0.1:5556") # Important: do not bind the same port with pcd_cam_vis node
         # Control the frequency of sending images
         self.latest_msg = None  # Store latest message
         self.timer = self.create_timer(0.1, self.send_latest_image)
@@ -70,11 +70,9 @@ class CompressedImageSubscriberNode(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = CompressedImageSubscriberNode()
-    try:
-        rclpy.spin(node)
-    finally:
-        node.destroy_node()
-        rclpy.shutdown()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
