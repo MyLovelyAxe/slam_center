@@ -1,17 +1,15 @@
 import zmq
+import rclpy
+import struct
 import pickle
 import numpy as np
-import rclpy
-from typing import Tuple, Dict, List
+
+from std_msgs.msg import Header
+from typing import Tuple, Dict
 from rclpy.node import Node
 from sensor_msgs.msg import PointCloud2, PointField
-from std_msgs.msg import Header
-import struct
 from visualization_msgs.msg import Marker, MarkerArray
-from geometry_msgs.msg import Point, Pose, Quaternion
-from std_msgs.msg import ColorRGBA
 from scipy.spatial.transform import Rotation as R
-
 
 
 class PointCloudCameraPoseTransfer(Node):
@@ -40,8 +38,7 @@ class PointCloudCameraPoseTransfer(Node):
         self.get_logger().info(f'Received zmq message of size {len(zmq_msg)} bytes')
         point_cloud_positions, point_cloud_colors, cameras = self.extract_result(
             zmq_msg=zmq_msg,
-            downsample_size=10,
-            verbose=True,
+            # downsample_size=10,
         )
         ### publish point cloud
         pcd_msg = self.create_point_cloud(
@@ -248,7 +245,6 @@ def main(args=None):
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
-
 
 
 if __name__ == '__main__':

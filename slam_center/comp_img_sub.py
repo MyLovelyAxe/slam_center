@@ -46,7 +46,7 @@ class CompressedImageSubscriberNode(Node):
         self.zmq_img_sender_socket.bind("tcp://127.0.0.1:5556") # Important: do not bind the same port with pcd_cam_vis node
         # Control the frequency of sending images
         self.latest_msg = None  # Store latest message
-        self.timer = self.create_timer(0.1, self.send_latest_image)
+        self.timer = self.create_timer(0.5, self.send_latest_image)
 
     def image_callback(self, msg):
         """Store the latest compressed image message."""

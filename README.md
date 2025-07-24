@@ -1,6 +1,6 @@
 # slam_center: message exchange center for ROS2 humble
 
-This ROS2 humble package provides a center connecting [camera node from RPI OS]() and [neural network-based SLAM algorithm](), which exchange messages via **ROS2 topics** and **ZMQ sockets**.
+This ROS2 humble package provides a center connecting [camera node from RPI OS](https://github.com/christianrauch/camera_ros/) and [neural network-based SLAM algorithm](https://github.com/MyLovelyAxe/MASt3R-SLAM/tree/ros), which exchange messages via **ROS2 topics** and **ZMQ sockets**.
 
 ## Table of Contents
 
@@ -28,9 +28,9 @@ The following diagram describes the function and relation of this `slam_center` 
 
 <img src="slam_center_diagram.svg" width="800"/>
 
-1. the `image topic` receives compressed image from [ROS camera node of ROS2 humble in docker container on Raspberry Pi OS](), and sends them to image zmq socket;
+1. the `image topic` receives compressed image from [ROS camera node of ROS2 humble in docker container on Raspberry Pi OS](https://github.com/christianrauch/camera_ros/), and sends them to image zmq socket;
 
-2. the `image zmq socket` sends the compressed image to [neural network-based SLAM model]();
+2. the `image zmq socket` sends the compressed image to [neural network-based SLAM model](https://github.com/MyLovelyAxe/MASt3R-SLAM/tree/ros);
 
 3. the `pcd zmq sockets` and `pose zmq sockets` receive the result 3D point cloud and camera poses from SLAM model, and send them to corresponding topic;
 
@@ -71,14 +71,16 @@ colcon build --packages-select slam_center --symlink-install
 Download a rosbag containing continuous recorded compressed images:
 
 ```bash
-cd /whatever/path
+cd ros_rtp_ws/src/slam_center
+mkdirs -p rosbag
 curl -L -o compressed-images-rosbag-jpg-images.zip  https://www.kaggle.com/api/v1/datasets/download/jialeili/compressed-images-rosbag-jpg-images
-
+unzip compressed-images-rosbag-jpg-images.zip
 ```
 
-Unzip the `.zip` file, and open a terminal under the same folder, play the rosbag to publish the images:
+Open a terminal under the same folder, play the rosbag to publish the images:
 
 ```bash
+cd ros_rtp_ws/src/slam_center/rosbag
 # 1. play once
 ros2 bag play rosbag2-2025_06_08-13_12_11-shelf3 # ros2 bag play <rosbag_name>
 # 2. play forever
