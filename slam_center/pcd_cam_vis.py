@@ -38,7 +38,11 @@ class PointCloudCameraPoseTransfer(Node):
         ### get point cloud and camera pose from zmq socket
         zmq_msg = self.reconst_socket.recv()
         self.get_logger().info(f'Received zmq message of size {len(zmq_msg)} bytes')
-        point_cloud_positions, point_cloud_colors, cameras = self.extract_result(zmq_msg=zmq_msg,verbose=True)
+        point_cloud_positions, point_cloud_colors, cameras = self.extract_result(
+            zmq_msg=zmq_msg,
+            downsample_size=10,
+            verbose=True,
+        )
         ### publish point cloud
         pcd_msg = self.create_point_cloud(
             xyz=point_cloud_positions,
@@ -60,6 +64,7 @@ class PointCloudCameraPoseTransfer(Node):
     def extract_result(
         self,
         zmq_msg, #: bytes,
+        downsample_size: int = 1,
         verbose: bool = False,
     ) -> Tuple[np.ndarray, np.ndarray, Dict[int, Dict[str, np.ndarray]]]:
         """ Extract point cloud and camera poses from the received zmq message.
@@ -114,6 +119,11 @@ class PointCloudCameraPoseTransfer(Node):
             for i, cam in cameras.items():
                 self.get_logger().info("Camera {}: Translation={}, Rotation={}".format(i, cam['translation'], cam['rotation']))
         
+        if not downsample_size == 1:
+            self.get_logger().info(f"Downsampling point cloud by {downsample_size}...")
+            point_cloud_positions = point_cloud_positions[::downsample_size]
+            point_cloud_colors = point_cloud_colors[::downsample_size]
+
         return point_cloud_positions, point_cloud_colors, cameras
 
 
