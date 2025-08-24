@@ -28,15 +28,15 @@ This package is tested on the following environment configuration:
 
 The following diagram describes the function and relation of this `slam_center` package and other parts of the project [real-time VSLAM based on Raspberry Pi 5 and 3D scene reconstruction model via ROS2 humble](https://github.com/MyLovelyAxe/ros_multidevices_rtmslam/tree/main):
 
-<img src="slam_center_diagram.svg" width="800"/>
+<img src="ros_slam_center_diagram.drawio.svg" width="800"/>
 
-1. the `image topic` receives compressed image from [ROS camera node of ROS2 humble in docker container on Raspberry Pi OS](https://github.com/christianrauch/camera_ros/), and sends them to image zmq socket;
+1. the **ROS image topic** receives compressed images from [ROS camera node of ROS2 humble in docker container on Raspberry Pi OS](https://github.com/christianrauch/camera_ros/), and sends them to **image ZMQ socket**;
 
-2. the `image zmq socket` sends the compressed image to [neural network-based SLAM model](https://github.com/MyLovelyAxe/MASt3R-SLAM/tree/ros);
+2. the **image ZMQ socket** sends the compressed images to [neural network-based SLAM model](https://github.com/MyLovelyAxe/MASt3R-SLAM/tree/ros);
 
-3. the `pcd zmq sockets` and `pose zmq sockets` receive the result 3D point cloud and camera poses from SLAM model, and send them to corresponding topic;
+3. the **result ZMQ socket** receives the result 3D point cloud and camera poses from SLAM model, and sends them to **ROS pcd topic** and **ROS pose topic**;
 
-4. the `pcd topic` and `pose topic` receive corresponding results from zmq sockets, send them to `Rviz` for real-time visualization;
+4. the **ROS pcd topic** and **ROS pose topic** receive corresponding results from zmq sockets, send them to **Rviz** for real-time visualization;
 
 ---
 
