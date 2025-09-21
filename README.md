@@ -2,7 +2,7 @@
 
 This ROS2 humble package provides a center connecting [camera node from RPI OS](https://github.com/christianrauch/camera_ros/) and [neural network-based SLAM algorithm](https://github.com/MyLovelyAxe/MASt3R-SLAM/tree/ros), which exchange messages via **ROS2 topics** and **ZMQ sockets**, and visualize in Rviz in real-time. Here is a demo:
 
-![Description](mast3r_slam_in_ros_demo.gif)
+![Description](pictures/mast3r_slam_in_ros_demo.gif)
 
 ## Table of Contents
 
@@ -28,7 +28,7 @@ This package is tested on the following environment configuration:
 
 The following diagram describes the function and relation of this `slam_center` package and other parts of the project [real-time VSLAM based on Raspberry Pi 5 and 3D scene reconstruction model via ROS2 humble](https://github.com/MyLovelyAxe/ros_multidevices_rtmslam/tree/main):
 
-<img src="ros_slam_center_diagram.drawio.svg" width="800"/>
+<img src="pictures/ros_slam_center_diagram.drawio.svg" width="800"/>
 
 1. the **ROS image topic** receives compressed images from [ROS camera node of ROS2 humble in docker container on Raspberry Pi OS](https://github.com/christianrauch/camera_ros/), and sends them to **image ZMQ socket**;
 
